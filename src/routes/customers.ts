@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { CustomerService } from '../services/customerService';
 import { validateCreateCustomer } from '../middleware/validation';
 import { asyncHandler } from '../middleware/errorHandler';
@@ -7,7 +7,7 @@ const router = Router();
 const customerService = new CustomerService();
 
 // Create customer
-router.post('/', validateCreateCustomer, asyncHandler(async (req, res) => {
+router.post('/', validateCreateCustomer, asyncHandler(async (req: Request, res: Response) => {
     const customer = await customerService.createCustomer(req.body);
 
     res.status(201).json({
@@ -17,7 +17,7 @@ router.post('/', validateCreateCustomer, asyncHandler(async (req, res) => {
 }));
 
 // Get customer
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id', asyncHandler(async (req: Request, res: Response) => {
     const customer = await customerService.getCustomer(req.params.id);
 
     if (!customer) {
@@ -34,7 +34,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // Get customer by email
-router.get('/email/:email', asyncHandler(async (req, res) => {
+router.get('/email/:email', asyncHandler(async (req: Request, res: Response) => {
     const customer = await customerService.getCustomerByEmail(req.params.email);
 
     if (!customer) {
@@ -51,7 +51,7 @@ router.get('/email/:email', asyncHandler(async (req, res) => {
 }));
 
 // Update customer
-router.put('/:id', asyncHandler(async (req, res) => {
+router.put('/:id', asyncHandler(async (req: Request, res: Response) => {
     const customer = await customerService.updateCustomer(req.params.id, req.body);
 
     res.json({
@@ -61,7 +61,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
 }));
 
 // Delete customer
-router.delete('/:id', asyncHandler(async (req, res) => {
+router.delete('/:id', asyncHandler(async (req: Request, res: Response) => {
     await customerService.deleteCustomer(req.params.id);
 
     res.json({

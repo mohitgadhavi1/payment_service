@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { PaymentService } from '../services/paymentService';
 import { validateCreatePayment, validateConfirmPayment } from '../middleware/validation';
 import { asyncHandler } from '../middleware/errorHandler';
@@ -7,7 +7,7 @@ const router = Router();
 const paymentService = new PaymentService();
 
 // Create payment intent
-router.post('/', validateCreatePayment, asyncHandler(async (req, res) => {
+router.post('/', validateCreatePayment, asyncHandler(async (req: Request, res: Response) => {
     const payment = await paymentService.createPaymentIntent(req.body);
 
     res.status(201).json({
@@ -17,7 +17,7 @@ router.post('/', validateCreatePayment, asyncHandler(async (req, res) => {
 }));
 
 // Get payment intent
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id', asyncHandler(async (req: Request, res: Response) => {
     const payment = await paymentService.getPaymentIntent(req.params.id);
 
     if (!payment) {
@@ -34,7 +34,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // Confirm payment intent
-router.post('/:id/confirm', validateConfirmPayment, asyncHandler(async (req, res) => {
+router.post('/:id/confirm', validateConfirmPayment, asyncHandler(async (req: Request, res: Response) => {
     const payment = await paymentService.confirmPaymentIntent(
         req.params.id,
         req.body.paymentMethodId
@@ -47,7 +47,7 @@ router.post('/:id/confirm', validateConfirmPayment, asyncHandler(async (req, res
 }));
 
 // Cancel payment intent
-router.post('/:id/cancel', asyncHandler(async (req, res) => {
+router.post('/:id/cancel', asyncHandler(async (req: Request, res: Response) => {
     const payment = await paymentService.cancelPaymentIntent(req.params.id);
 
     res.json({
@@ -57,7 +57,7 @@ router.post('/:id/cancel', asyncHandler(async (req, res) => {
 }));
 
 // Get payments by customer
-router.get('/customer/:customerId', asyncHandler(async (req, res) => {
+router.get('/customer/:customerId', asyncHandler(async (req: Request, res: Response) => {
     const payments = await paymentService.getPaymentsByCustomer(req.params.customerId);
 
     res.json({

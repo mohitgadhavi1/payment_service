@@ -6,7 +6,9 @@ const router = Router();
 const webhookService = new WebhookService();
 
 // Stripe webhook endpoint
-router.post('/stripe', asyncHandler(async (req, res) => {
+import { Request, Response } from 'express';
+
+router.post('/stripe', asyncHandler(async (req: Request, res: Response) => {
     const signature = req.headers['stripe-signature'] as string;
 
     if (!signature) {
